@@ -4,7 +4,7 @@
   <title>Project R7D6</title>
 </head>
 <body>
-  <h1>Motion: <span id="motion"></span></h1>
+  <h1>R7D6 Control Hub</h1>
 
   <button id="ble">Pair with Droid</button>
   <br />
@@ -14,6 +14,12 @@
   <button id="slow">Slow</button>
   <button id="forward">Forward</button>
   <button id="back">Back</button>
+
+  <h3>Motion: <span id="motion"></span></h3>
+  <hr />
+  <h2>Messages</h2>
+  <p id="messages"></p>
+
   <script>
       function sleep(ms) {
           return new Promise(resolve => setTimeout(resolve, ms));
@@ -106,6 +112,8 @@
         await sleep(200);
         sendHex("2742 0F44 4400 1802");
         await sleep(50);
+
+        logMessage("Successfully tested connection.");
       }
 
       async function stopMotion()
@@ -118,6 +126,8 @@
         await sleep(200);
         sendHex("2742 0F44 4400 1800");
         await sleep(50);
+
+        logMessage("Motion stopped");
       }
 
       async function slowMotion()
@@ -130,6 +140,8 @@
         await sleep(200);
         sendHex("2742 0F44 4400 1800");
         await sleep(50);
+
+        logMessage("Motion reduced");
       }
 
       async function moveForward()
@@ -142,6 +154,8 @@
         await sleep(200);
         sendHex("2742 0F44 4400 1800");
         await sleep(50);
+
+        logMessage("Commanding droid forward.");
       }
 
       async function moveBackward()
@@ -154,6 +168,13 @@
         await sleep(200);
         sendHex("2742 0F44 4400 1800");
         await sleep(50);
+
+        logMessage("Commanding droid backwards.");
+      }
+
+      function logMessage(message)
+      {
+        document.getElementById('messages').prepend(message);
       }
 
       function sendMovement(m, d, p)
@@ -195,30 +216,40 @@
 
     socket.on('test', () =>
     {
+      logMessage("Testing connection.");
       document.getElementById('motion').textContent = "Testing"
       testConnection()
     })
 
+    socket.on('message', (data) =>
+    {
+      logMessage(data);
+    })
+
     socket.on('stop_motion', () =>
     {
+      logMessage("Requesting motion stop.");
       document.getElementById('motion').textContent = "Stopped"
       stopMotion()
     })
 
     socket.on('slow_motion', () =>
     {
+      logMessage("Requesting reduced motion profile.");
       document.getElementById('motion').textContent = "Slowed"
       slowMotion()
     })
 
     socket.on('move_forward', () =>
     {
+      logMessage("Requesting normal motion profile.");
       document.getElementById('motion').textContent = "Forwards"
       moveForward()
     })
 
     socket.on('move_back', () =>
     {
+      logMessage("Requesting reverse motion profile.");
       document.getElementById('motion').textContent = "Backwards"
       moveBackward()
     })

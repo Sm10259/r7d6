@@ -18,6 +18,11 @@ app.get('/motion/test', (req, res) => {
   res.status(200).send('OK.')
 })
 
+app.get('/message/:message', (req, res) => {
+  io.emit('message', req.params.message)
+  res.status(200).send('OK.')
+})
+
 app.get('/motion/stop', (req, res) => {
   io.emit('stop_motion')
   res.status(200).send('OK.')
