@@ -100,6 +100,14 @@
           console.log('Received ' + JSON.stringify(value));
       }
 
+      async function testConnection()
+      {
+        sendHex("2742 0F44 4400 1F00");
+        await sleep(200);
+        sendHex("2742 0F44 4400 1802");
+        await sleep(50);
+      }
+
       async function stopMotion()
       {
         sendMovement(0, 0, "00");

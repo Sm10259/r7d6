@@ -13,6 +13,11 @@ const io = socketIO(server)
 // Serve static files from the "public" directory
 app.use(express.static('public'))
 
+app.get('/motion/test', (req, res) => {
+  io.emit('test')
+  res.status(200).send('OK.')
+})
+
 app.get('/motion/stop', (req, res) => {
   io.emit('stop_motion')
   res.status(200).send('OK.')
