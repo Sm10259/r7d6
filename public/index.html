@@ -193,6 +193,12 @@
   <script>
     const socket = io()
 
+    socket.on('test', () =>
+    {
+      document.getElementById('motion').textContent = "Testing"
+      testConnection()
+    })
+
     socket.on('stop_motion', () =>
     {
       document.getElementById('motion').textContent = "Stopped"
