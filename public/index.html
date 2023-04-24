@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Project R7D6</title>
+</head>
+<body>
+  <h1>Motion: <span id="motion"></span></h1>
+
+  <button id="ble">Pair with Droid</button>
+  <br />
+  <input id="hex" placeholder="Hex instruction"><button id="send">Send instruction</button>
+  <br />
+  <button id="stop">Stop</button>
+  <button id="slow">Slow</button>
+  <button id="forward">Forward</button>
+  <button id="back">Back</button>
+  <script>
+      function sleep(ms) {
+          return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
+      var writeC;
+      const serviceUuid = '09b600a0-3e42-41fc-b474-e9c0c8f0c801';
+      const notificationUuid = '09b600b0-3e42-41fc-b474-e9c0c8f0c801';
+      const writeUuid = '09b600b1-3e42-41fc-b474-e9c0c8f0c801';
+
+
+      const fromHexString = hexString =>
+          new Uint8Array(hexString.replace(/\s+/g, '').match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+
+
+      document.getElementById('ble').addEventListener('click', function () {
+
+          navigator.bluetooth.requestDevice({
+              optionalServices: [serviceUuid],
+              filters: [{
+                  name: 'DROID'
+              }]
+          })
+              .then(device => {
+                  console.log('Connecting to GATT Service...');
+                  return device.gatt.connect()
+              })
+              .then(droid => {
+                  console.log('Getting Droid...');
+                  return droid.getPrimaryService(serviceUuid);
+              })
+              .then(service => {
+                  console.log('Getting Characteristics...');
+
+                  return service.getCharacteristics();
+
+
+              })
+              .then(characteristics => {
+                  characteristics.forEach(c => {
+                      if (c.uuid === notificationUuid) {
+                          return handleNotificationCharacteristic(c);
+                      } else if (c.uuid === writeUuid) {
+                          writeC = c;
+                          return initialWrites();
+
+                      }
+
+                  });
+
+              })
+              .catch(error => {
+                  console.log('Argh! ' + error);
+              });
+      });
+
+      async function initialWrites() {
+          await writeC.writeValue(fromHexString('222001'));
+          await sleep(500);
+          await writeC.writeValue(fromHexString('222001'));
+          await sleep(500);
+          await writeC.writeValue(fromHexString('222001'));
+          await sleep(500);
+          await writeC.writeValue(fromHexString('222001'));
+          await sleep(500);
+          await writeC.writeValue(fromHexString('27420f4444001f00'));
+          await sleep(10);
+          await writeC.writeValue(fromHexString('27420f4444001802'));
+          await sleep(500);
+          await writeC.writeValue(fromHexString('27420f4444001f00'));
+          await sleep(10);
+          await writeC.writeValue(fromHexString('27420f4444001802'));
+          await sleep(1000);
+          return writeC;
+      }
+      async function handleNotificationCharacteristic(c) {
+          c = await c.startNotifications();
+          return c.addEventListener('characteristicvaluechanged',
+              handleCharacteristicValueChanged);
+      }
+
+      function handleCharacteristicValueChanged(event) {
+          var value = event.target.value;
+          console.log('Received ' + JSON.stringify(value));
+      }
+
+      async function stopMotion()
+      {
+        sendMovement(0, 0, "00");
+        await sleep(200);
+        sendMovement(1, 0, "00");
+        await sleep(200);
+        sendHex("2742 0F44 4400 1F00");
+        await sleep(200);
+        sendHex("2742 0F44 4400 1800");
+        await sleep(50);
+      }
+
+      async function slowMotion()
+      {
+        sendMovement(0, 0, "35");
+        await sleep(200);
+        sendMovement(1, 0, "35");
+        await sleep(200);
+        sendHex("2742 0F44 4400 1F0A");
+        await sleep(200);
+        sendHex("2742 0F44 4400 1800");
+        await sleep(50);
+      }
+
+      async function moveForward()
+      {
+        sendMovement(0, 0, "40");
+        await sleep(200);
+        sendMovement(1, 0, "40");
+        await sleep(200);
+        sendHex("2742 0F44 4400 1F03");
+        await sleep(200);
+        sendHex("2742 0F44 4400 1800");
+        await sleep(50);
+      }
+
+      async function moveBackward()
+      {
+        sendMovement(0, 8, "35");
+        await sleep(200);
+        sendMovement(1, 8, "35");
+        await sleep(200);
+        sendHex("2742 0F44 4400 1F07");
+        await sleep(200);
+        sendHex("2742 0F44 4400 1800");
+        await sleep(50);
+      }
+
+      function sendMovement(m, d, p)
+      {
+        sendHex("29420546"+d+m+p+"012C0000");
+      }
+
+      function sendHex(hex)
+      {
+        writeC.writeValue(fromHexString(hex)).then(console.log).catch(console.log);
+      }
+
+      document.getElementById('send').addEventListener('click', function () {
+          const hex = document.getElementById('hex').value;
+          sendHex(hex);
+      });
+
+      document.getElementById("stop").onclick = async ()=> {
+        stopMotion();
+      };
+
+      document.getElementById("slow").onclick = async ()=> {
+        slowMotion();
+      };
+
+      document.getElementById("forward").onclick = async ()=> {
+        moveForward();
+      };
+
+      document.getElementById("back").onclick = async ()=> {
+        moveBackward();
+      };
+
+  </script>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io()
+
+    socket.on('stop_motion', () =>
+    {
+      document.getElementById('motion').textContent = "Stopped"
+      stopMotion()
+    })
+
+    socket.on('slow_motion', () =>
+    {
+      document.getElementById('motion').textContent = "Slowed"
+      slowMotion()
+    })
+
+    socket.on('move_forward', () =>
+    {
+      document.getElementById('motion').textContent = "Forwards"
+      moveForward()
+    })
+
+    socket.on('move_back', () =>
+    {
+      document.getElementById('motion').textContent = "Backwards"
+      moveBackward()
+    })
+
+
+  </script>
+</body>
+</html>
