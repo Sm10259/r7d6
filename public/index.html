@@ -120,9 +120,9 @@
       async function stopMotion()
       {
         sendMovement(0, 0, "00");
-        await sleep(200);
+        await sleep(50);
         sendMovement(1, 0, "00");
-        await sleep(200);
+        await sleep(50);
         sendHex("2742 0F44 4400 1F00");
         await sleep(200);
         sendHex("2742 0F44 4400 1800");
@@ -134,9 +134,9 @@
       async function slowMotion()
       {
         sendMovement(0, 0, "35");
-        await sleep(200);
+        await sleep(50);
         sendMovement(1, 0, "35");
-        await sleep(200);
+        await sleep(50);
         sendHex("2742 0F44 4400 1F0A");
         await sleep(200);
         sendHex("2742 0F44 4400 1800");
@@ -199,15 +199,15 @@
 
         for(var i = 1; i <= cycles; i++)
         {
-          sendMovement(0, 0, "35");
+          sendMovement(0, 0, "00");
           await sleep(50);
-          sendMovement(1, 8, "35");
-          await sleep(200);
+          sendMovement(1, 0, "35");
+          await sleep(50);
 
           sendMovement(0, 0, "00");
           await sleep(50);
           sendMovement(1, 0, "00");
-          await sleep(200);
+          await sleep(50);
 
           logMessage("Current angle: " + (90 * i))
         }
@@ -239,9 +239,9 @@
 
         for(var i = 1; i <= cycles; i++)
         {
-          sendMovement(0, 8, "35");
+          sendMovement(0, 0, "35");
           await sleep(50);
-          sendMovement(1, 0, "35");
+          sendMovement(1, 0, "00");
           await sleep(200);
 
           sendMovement(0, 0, "00");
