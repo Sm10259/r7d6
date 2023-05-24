@@ -201,8 +201,15 @@
 
         for(var i = 1; i <= cycles; i++)
         {
-          // Stop motor 0
+          // Stop both motors
           sendMovement(0, 0, "00");
+          await sleep(150);
+          sendMovement(1, 0, "00");
+          await sleep(300);
+
+          // Start motor 1
+          sendMovement(1, 0, "35");
+
           await sleep(1500);
 
           // Stop motor 1
@@ -239,8 +246,15 @@
 
         for(var i = 1; i <= cycles; i++)
         {
-          // Stop motor 1
+          // Stop both motors
+          sendMovement(0, 0, "00");
+          await sleep(150);
           sendMovement(1, 0, "00");
+          await sleep(300);
+
+          // Start motor 0
+          sendMovement(0, 0, "35");
+
           await sleep(1500);
 
           // Stop motor 0
