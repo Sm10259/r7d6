@@ -365,25 +365,25 @@
     // Rotate the vehicle -90 degrees.
     socket.on('rotate_left', (data) =>
     {
-      currentAngle += data;
+      //currentAngle += data;
 
-      logMessage("Requesting vehicle to rotate left " + data + " degrees.")
+      //logMessage("Requesting vehicle to rotate left " + data + " degrees.")
       document.getElementById('motion').textContent = "Left"
-      document.getElementById('angle').textContent = currentAngle;
+      //document.getElementById('angle').textContent = currentAngle;
 
-      rotateLeft()
+      rotateLeft(data)
     })
 
     // Rotate the vehicle 90 degrees.
     socket.on('rotate_right', (data) =>
     {
-      currentAngle += data;
+      //currentAngle += data;
 
-      logMessage("Requesting vehicle to rotate right " + data + " degrees.")
+      //logMessage("Requesting vehicle to rotate right " + data + " degrees.")
       document.getElementById('motion').textContent = "Left"
-      document.getElementById('angle').textContent = currentAngle
+      //document.getElementById('angle').textContent = currentAngle
 
-      rotateRight()
+      rotateRight(data)
     })
 
 
