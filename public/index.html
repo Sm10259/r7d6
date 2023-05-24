@@ -175,24 +175,24 @@
 
       async function rotateLeft(angle)
       {
-        var cycles = 0;
+        var cycles = 0
         switch(angle)
         {
           case -90:
-            cycles = 1;
-            break;
+            cycles = 1
+            break
           case -180:
-            cycles = 2;
+            cycles = 2
             break;
           case -270:
-            cycles = 3:
+            cycles = 3
             break;
           case -360:
-            cycles = 4;
-            break;
+            cycles = 4
+            break
           default:
-            cycles = 0:
-            break;
+            cycles = 0
+            break
         }
 
         logMessage("Commanding droid rotate "+angle+" degrees.");
@@ -215,24 +215,24 @@
 
       async function rotateRight(angle)
       {
-        var cycles = 0;
+        var cycles = 0
         switch(angle)
         {
           case 90:
-            cycles = 1;
-            break;
+            cycles = 1
+            break
           case 180:
-            cycles = 2;
-            break;
+            cycles = 2
+            break
           case 270:
-            cycles = 3:
-            break;
+            cycles = 3
+            break
           case 360:
-            cycles = 4;
-            break;
+            cycles = 4
+            break
           default:
-            cycles = 0:
-            break;
+            cycles = 0
+            break
         }
 
         logMessage("Commanding droid rotate "+angle+" degrees.");
