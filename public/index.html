@@ -218,9 +218,8 @@
 
           // Stop motor 1
           sendMovement(1, 0, "00");
-          await sleep(50);
-
-          logMessage("Current angle: " + (90 * i))
+          
+          await sleep(300);
         }
       }
 
@@ -266,9 +265,8 @@
 
           // Stop motor 0
           sendMovement(0, 0, "00");
-          await sleep(50);
 
-          logMessage("Current angle: " + (90 * i))
+          await sleep(300);
         }
       }
 
