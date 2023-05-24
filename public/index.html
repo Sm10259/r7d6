@@ -209,16 +209,16 @@
           sendMovement(0, 0, "00");
           await sleep(150);
           sendMovement(1, 0, "00");
-          await sleep(300);
+          await sleep(500);
 
           // Start motor 1
-          sendMovement(1, 0, "35");
+          sendMovement(1, 0, "38");
 
-          await sleep(1500);
+          await sleep(500);
 
           // Stop motor 1
           sendMovement(1, 0, "00");
-          
+
           await sleep(300);
         }
       }
@@ -256,12 +256,12 @@
           sendMovement(0, 0, "00");
           await sleep(150);
           sendMovement(1, 0, "00");
-          await sleep(300);
+          await sleep(500);
 
           // Start motor 0
-          sendMovement(0, 0, "35");
+          sendMovement(0, 0, "38");
 
-          await sleep(1500);
+          await sleep(500);
 
           // Stop motor 0
           sendMovement(0, 0, "00");
