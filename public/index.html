@@ -122,7 +122,7 @@
       async function stopMotion()
       {
         sendMovement(0, 0, "00");
-        await sleep(80);
+        await sleep(130);
         sendMovement(1, 0, "00");
         await sleep(200);
         sendHex("2742 0F44 4400 1F00");
@@ -136,7 +136,7 @@
       async function slowMotion()
       {
         sendMovement(0, 0, "35");
-        await sleep(80);
+        await sleep(130);
         sendMovement(1, 0, "35");
         await sleep(200);
         sendHex("2742 0F44 4400 1F0A");
