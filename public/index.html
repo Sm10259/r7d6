@@ -14,6 +14,8 @@
   <button id="slow">Slow</button>
   <button id="forward">Forward</button>
   <button id="back">Back</button>
+  <button id="left">Left</button>
+  <button id="right">Right</button>
 
   <h3>Motion: <span id="motion"></span></h3>
   <h3>Angle from origin: <span id="angle"></span></h3>
@@ -283,6 +285,14 @@
 
       document.getElementById("back").onclick = async ()=> {
         moveBackward();
+      };
+
+      document.getElementById("left").onclick = async ()=> {
+        rotateLeft();
+      };
+
+      document.getElementById("right").onclick = async ()=> {
+        rotateRight();
       };
 
   </script>
