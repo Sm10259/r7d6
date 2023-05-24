@@ -43,6 +43,16 @@ app.get('/motion/back', (req, res) => {
   res.status(200).send('OK.')
 })
 
+app.get('/motion/left/:angle', (req, res) => {
+  io.emit('rotate_left', req.params.angle)
+  res.status(200).send('OK.')
+})
+
+app.get('/motion/right/:angle', (req, res) => {
+  io.emit('rotate_right', req.params.angle)
+  res.status(200).send('OK.')
+})
+
 // Start the server
 const port = process.env.PORT || 3000;
 server.listen(port, () => {
