@@ -177,6 +177,8 @@
 
       async function rotateLeft(angle)
       {
+        Console.Log(angle);
+
         var cycles = 0
         switch(angle)
         {
@@ -196,7 +198,7 @@
             cycles = 0
             break
         }
-
+        
         logMessage("Commanding droid rotate "+angle+" degrees.");
 
         for(var i = 1; i <= cycles; i++)
@@ -222,6 +224,7 @@
 
       async function rotateRight(angle)
       {
+        Console.Log(angle);
         var cycles = 0
         switch(angle)
         {
