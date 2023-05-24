@@ -198,7 +198,7 @@
             cycles = 0
             break
         }
-        
+
         logMessage("Commanding droid rotate "+angle+" degrees.");
 
         for(var i = 1; i <= cycles; i++)
@@ -368,24 +368,14 @@
     // Rotate the vehicle -90 degrees.
     socket.on('rotate_left', (data) =>
     {
-      //currentAngle += data;
-
-      //logMessage("Requesting vehicle to rotate left " + data + " degrees.")
       document.getElementById('motion').textContent = "Left"
-      //document.getElementById('angle').textContent = currentAngle;
-
       rotateLeft(data)
     })
 
     // Rotate the vehicle 90 degrees.
     socket.on('rotate_right', (data) =>
     {
-      //currentAngle += data;
-
-      //logMessage("Requesting vehicle to rotate right " + data + " degrees.")
-      document.getElementById('motion').textContent = "Left"
-      //document.getElementById('angle').textContent = currentAngle
-
+      document.getElementById('motion').textContent = "Right"
       rotateRight(data)
     })
 
