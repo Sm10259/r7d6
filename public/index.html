@@ -182,22 +182,24 @@
         var cycles = 0
         switch(angle)
         {
-          case -90:
+          case "-90":
             cycles = 1
             break
-          case -180:
+          case "-180":
             cycles = 2
             break;
-          case -270:
+          case "-270":
             cycles = 3
             break;
-          case -360:
+          case "-360":
             cycles = 4
             break
           default:
             cycles = 0
             break
         }
+
+        console.log("Cycles: " + cycles)
 
         logMessage("Commanding droid rotate "+angle+" degrees.");
 
@@ -228,22 +230,24 @@
         var cycles = 0
         switch(angle)
         {
-          case 90:
+          case "90":
             cycles = 1
             break
-          case 180:
+          case "180":
             cycles = 2
             break
-          case 270:
+          case "270":
             cycles = 3
             break
-          case 360:
+          case "360":
             cycles = 4
             break
           default:
             cycles = 0
             break
         }
+
+        console.log("Cycles: " + cycles)
 
         logMessage("Commanding droid rotate "+angle+" degrees.");
 
